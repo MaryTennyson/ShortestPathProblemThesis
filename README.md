@@ -37,6 +37,6 @@ Users can access different shortest path problem files by selecting different br
 
 ## Contributors
 
-- [Your Name](link-to-your-profile): Project Lead
+- [Ebrar ATABAY]https://github.com/MaryTennyson): Project Lead
 
 Feel free to contribute to the project by forking the repository and creating pull requests.
