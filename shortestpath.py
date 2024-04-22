@@ -1,7 +1,3 @@
-import sys
-
-# this code make the implementation of the algorithm more succinct
-# it has nothing to do with the Dijkstra algorithm
 class Graph(object):
     def __init__(self, nodes, init_graph):
         self.nodes = nodes
@@ -43,90 +39,35 @@ class Graph(object):
         return self.graph[node1][node2]
 
 
-# Here start the main part
-# graph is an instance of the Graph class
-# start_node is the node from which we start the calculations 
-def dijkstra_algorithm(graph, start_node):
-    
-    # Initializr the list of unvisited nodes
-    unvisited_nodes = list(graph.get_nodes())
-    
-    """
-    Create two dicts:
-    
-    1- shortest_path store the best-known cost of visiting each city in the graph 
-    starting from the start_node. In the beginning the cost starts at infinity,
-    and values are updated later
-    
-    2- previous_node store the trajectory of the current best known path for each
-    node. 
-    """
-    shortest_path = {}
-    previous_nodes = {}
-    # We'll use max_value to initialize the "infinity" value of the unvisited nodes
-    max_value = sys.maxsize
-    for node in unvisited_nodes:
-        shortest_path[node] = max_value
-    # However, we initialize the starting node's value with 0
-    shortest_path[start_node] = 0
-
-    # Dijkstra executes until it visits all the nodes in a graph, so we use while-loop
-    while unvisited_nodes:
+   
+    def bellman_ford(self, start_node):
+        # Step 1: Initialize distances from start_node to all other nodes as INFINITY
+        distance = {node: float('inf') for node in self.nodes}
+        distance[start_node] = 0
         
-        # this block instructs the algorithm to find the node with the lowest value
-        current_min_node = None
-        for node in unvisited_nodes: #iterate over the nodes
-            # if the new path to the neighbor is better than current best, 
-            # the algorithm makes the adjustments
-            if current_min_node == None:
-                current_min_node = node
-            elif shortest_path[node] < shortest_path[current_min_node]:
-                current_min_node = node
+        # Step 2: Relax all edges |V| - 1 times
+        for _ in range(len(self.nodes) - 1):
+            for node in self.nodes:
+                for neighbor in self.get_outgoing_edges(node):
+                    if distance[node] + self.value(node, neighbor) < distance[neighbor]:
+                        distance[neighbor] = distance[node] + self.value(node, neighbor)
         
-        # this code block retrieves the current node's neighbors and updates the 
-        # distances
-        neighbors = graph.get_outgoing_edges(current_min_node)
-        for neighbor in neighbors:
-            tentative_value = shortest_path[current_min_node] + graph.value(current_min_node, neighbor)
-            if tentative_value < shortest_path[neighbor]:
-                shortest_path[neighbor] = tentative_value
-                # we also update teh best path to the current node
-                previous_nodes[neighbor] = current_min_node
+        # Step 3: Check for negative-weight cycles
+        for node in self.nodes:
+            for neighbor in self.get_outgoing_edges(node):
+                if distance[node] + self.value(node, neighbor) < distance[neighbor]:
+                    raise ValueError("Graph contains a negative-weight cycle")
         
-        unvisited_nodes.remove(current_min_node)
-        
-    # return the two dictionaries
-    return previous_nodes, shortest_path
+        return distance
 
 
-# print out the results
-"""
-This function will take the two dictionaries as well as the names of the begenning 
-and target nodes. It will use the two dictionaries to find the best path and 
-calculate the path's score
-"""
-def print_result(previous_nodes, shortest_path, start_node, target_node):
-    path = []
-    node = target_node
-
-    while node != start_node:
-        path.append(node)
-        node = previous_nodes[node]
-
-    # Add the start node manually
-    path.append(start_node)
-
-    print("We found the following best path with a value of {}.".format(shortest_path[target_node]))
-    print(" -> ".join(reversed(path)))
-
-
-
-# The algorithm in action!
-nodes = ["Reykjavik", "Oslo", "Moscow", "London", "Rome", "Berlin", "Belgrade", "Athens"]
+# Driver's code
+if __name__ == '__main__':
+ nodes = ["Reykjavik", "Oslo", "Moscow", "London", "Rome", "Berlin", "Belgrade", "Athens"]
 
 init_graph = {}
 for node in nodes:
-    init_graph[node] = {}
+ init_graph[node] = {}
 
 init_graph["Reykjavik"]["Oslo"] = 5
 init_graph["Reykjavik"]["London"] = 4
@@ -141,8 +82,7 @@ init_graph["Rome"]["Athens"] = 2
 # We now use this values to create an object of the Graph class
 graph = Graph(nodes, init_graph)
 
-# With the graph construct we can then send it to the Dijkstra algorithm
-previous_nodes, shortest_path = dijkstra_algorithm(graph=graph, start_node="Reykjavik")
+    # function call
+shortest_path= graph.bellman_ford(start_node="Rome")
 
-# print out the results
-print_result(previous_nodes, shortest_path, start_node="Reykjavik", target_node="Rome")
+print(shortest_path)
