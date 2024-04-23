@@ -1,4 +1,5 @@
 import sys
+from timeit import default_timer as timer
 
 class Graph(object):
     def __init__(self, nodes, init_graph):
@@ -92,8 +93,10 @@ init_graph = {
 
 graph = Graph(nodes, init_graph)
 
-# Find the shortest path from Reykjavik to Rome
+t0=timer()
 dijkstra_algorithm(graph, "Reykjavik", "Rome")
+t1=timer()
+print (t1-t0)
 
 # Find the shortest path from Reykjavik to Oslo
 dijkstra_algorithm(graph, "Reykjavik", "Moscow")
