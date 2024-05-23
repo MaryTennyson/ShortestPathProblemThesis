@@ -34,13 +34,14 @@ class Graph(object):
     def value(self, node1, node2):
         return self.graph[node1][node2]
 
-def dijkstra_algorithm(graph, start_node, target_node):
+def dijkstra(graph, start_node, target_node):
     unvisited_nodes = list(graph.get_nodes())
     shortest_path = {}
     previous_nodes = {}
-    max_value = sys.maxsize
+    max_value = float('inf')
     for node in unvisited_nodes:
         shortest_path[node] = max_value
+        
     shortest_path[start_node] = 0
 
     while unvisited_nodes:
@@ -353,12 +354,12 @@ graph = Graph(nodes, init_graph)
 print("130 nodes, 634 edges")
 
 t0=timer()
-dijkstra_algorithm(graph, "A", "DZ"),
+dijkstra(graph, "A", "DZ"),
 t1=timer()
 print (t1-t0)
 
 t2=timer()
 # Find the shortest path from Reykjavik to Oslo
-dijkstra_algorithm(graph, "CO", "AF")
+dijkstra(graph, "CO", "AF")
 t3=timer()
 print (t3-t2)
