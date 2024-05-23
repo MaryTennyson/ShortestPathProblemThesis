@@ -62,7 +62,6 @@ def bellman_ford(graph, start_node, target_node):
     return path, distance[target_node]
 
 
-# The algorithm in action!
 
 nodes = [
 "A",
