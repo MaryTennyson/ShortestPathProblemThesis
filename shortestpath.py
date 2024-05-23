@@ -35,46 +35,50 @@ class Graph(object):
         return self.graph[node1][node2]
 
 def dijkstra(graph, start_node, target_node):
+    # Ziyaret edilmemiş düğümleri ve başlangıç değerlerini tanımla
     unvisited_nodes = list(graph.get_nodes())
-    shortest_path = {}
-    previous_nodes = {}
-    max_value = float('inf')
-    for node in unvisited_nodes:
-        shortest_path[node] = max_value
-        
-    shortest_path[start_node] = 0
+    shortest_distances = {node: float('inf') for node in unvisited_nodes}
+    previous_nodes = {node: None for node in unvisited_nodes}
+    shortest_distances[start_node] = 0
 
-    while unvisited_nodes:
-        current_min_node = None
-        for node in unvisited_nodes:
-            if current_min_node == None:
-                current_min_node = node
-            elif shortest_path[node] < shortest_path[current_min_node]:
-                current_min_node = node
-        
-        neighbors = graph.get_outgoing_edges(current_min_node)
-        for neighbor in neighbors:
-            tentative_value = shortest_path[current_min_node] + graph.value(current_min_node, neighbor)
-            if tentative_value < shortest_path[neighbor]:
-                shortest_path[neighbor] = tentative_value
-                previous_nodes[neighbor] = current_min_node
-        
-        unvisited_nodes.remove(current_min_node)
-        if current_min_node == target_node:
+    for _ in range(len(unvisited_nodes)):
+        if not unvisited_nodes:
             break
+        # Ziyaret edilmemiş düğümler arasında en kısa mesafeye sahip düğümü bul
+        current_node = min(unvisited_nodes, key=lambda node: shortest_distances[node])
         
-    if shortest_path[target_node] == max_value:
-        print("There is no path from {} to {}.".format(start_node, target_node))
-    else:
-        path = []
-        node = target_node
-        while node != start_node:
-            path.append(node)
-            node = previous_nodes[node]
-        path.append(start_node)
-        print("DJ  /Shortest path from {} to {} with a distance of {}:".format(start_node, target_node, shortest_path[target_node]))
-        print(" -> ".join(reversed(path)))
+        # Eğer hedef düğüme ulaşıldıysa döngüden çık
+        if current_node == target_node:
+            break
 
+        # Komşu düğümleri ziyaret et ve mesafeleri güncelle
+        for neighbor in graph.get_outgoing_edges(current_node):
+            weight = graph.value(current_node, neighbor)
+            new_distance = shortest_distances[current_node] + weight
+
+            if new_distance < shortest_distances[neighbor]:
+                shortest_distances[neighbor] = new_distance
+                previous_nodes[neighbor] = current_node
+
+        # Mevcut düğümü ziyaret edilmiş olarak işaretle
+        unvisited_nodes.remove(current_node)
+
+    # Hedef düğüme ulaşılamıyorsa bilgi mesajı yazdır
+    if shortest_distances[target_node] == float('inf'):
+        print(f"There is no path from {start_node} to {target_node}.")
+        return
+
+    # Hedef düğüme giden en kısa yolu oluştur
+    path = []
+    node = target_node
+    while node is not None:
+        path.append(node)
+        node = previous_nodes[node]
+    path.reverse()
+
+    # En kısa yolu ve mesafeyi yazdır
+    print(f"Start Point: {start_node} Target Point: {target_node} Distance:{shortest_distances[target_node]}:")
+    print(" -> ".join(path))
 
 
 
