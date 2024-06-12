@@ -32,12 +32,12 @@ class Graph(object):
 
 
 def bellman_ford(graph, start_node, target_node):
-    # Initialization
+    # Başlangıç iterasyonları
     distance = {node: float('inf') for node in graph.nodes}
     predecessor = {node: None for node in graph.nodes}
     distance[start_node] = 0
 
-    # Relax edges repeatedly
+    # Graftaki düğüm sayısı kadar tekrar eden döngü
     for _ in range(len(graph.nodes) - 1):
         for u in graph.nodes:
             for v, w in graph.get_outgoing_edges(u):
@@ -45,13 +45,13 @@ def bellman_ford(graph, start_node, target_node):
                     distance[v] = distance[u] + w
                     predecessor[v] = u
 
-    # Check for negative cycles
+    # Negatif döngü olup olmadığının testi
     for u in graph.nodes:
         for v, w in graph.get_outgoing_edges(u):
             if distance[u] + w < distance[v]:
                 raise ValueError("Graph contains negative weight cycle")
 
-    # Reconstruct shortest path
+    # En kısa yolu için listeyi döndüren kod
     path = []
     node = target_node
     while node is not None:
