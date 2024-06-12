@@ -35,7 +35,6 @@ class Graph(object):
         return self.graph[node1][node2]
 
 def dijkstra(graph, start_node, target_node):
-    # Ziyaret edilmemiş düğümleri ve başlangıç değerlerini tanımla
     unvisited_nodes = list(graph.get_nodes())
     shortest_distances = {node: float('inf') for node in unvisited_nodes}
     previous_nodes = {node: None for node in unvisited_nodes}
@@ -44,14 +43,12 @@ def dijkstra(graph, start_node, target_node):
     for _ in range(len(unvisited_nodes)):
         if not unvisited_nodes:
             break
-        # Ziyaret edilmemiş düğümler arasında en kısa mesafeye sahip düğümü bul
+        
         current_node = min(unvisited_nodes, key=lambda node: shortest_distances[node])
         
-        # Eğer hedef düğüme ulaşıldıysa döngüden çık
         if current_node == target_node:
             break
 
-        # Komşu düğümleri ziyaret et ve mesafeleri güncelle
         for neighbor in graph.get_outgoing_edges(current_node):
             weight = graph.value(current_node, neighbor)
             new_distance = shortest_distances[current_node] + weight
@@ -60,15 +57,14 @@ def dijkstra(graph, start_node, target_node):
                 shortest_distances[neighbor] = new_distance
                 previous_nodes[neighbor] = current_node
 
-        # Mevcut düğümü ziyaret edilmiş olarak işaretle
         unvisited_nodes.remove(current_node)
 
-    # Hedef düğüme ulaşılamıyorsa bilgi mesajı yazdır
+   
     if shortest_distances[target_node] == float('inf'):
         print(f"There is no path from {start_node} to {target_node}.")
         return
 
-    # Hedef düğüme giden en kısa yolu oluştur
+  
     path = []
     node = target_node
     while node is not None:
@@ -76,14 +72,14 @@ def dijkstra(graph, start_node, target_node):
         node = previous_nodes[node]
     path.reverse()
 
-    # En kısa yolu ve mesafeyi yazdır
+ 
     print(f"Start Point: {start_node} Target Point: {target_node} Distance:{shortest_distances[target_node]}:")
     print(" -> ".join(path))
 
 
 
 
-# The algorithm in action!
+
 
 nodes = [
 "A",
@@ -367,3 +363,18 @@ t2=timer()
 dijkstra(graph, "CO", "AF")
 t3=timer()
 print (t3-t2)
+
+
+
+nodes = ["Reykjavik", "Oslo", "Moscow", "London", "Rome", "Berlin", "Belgrade", "Athens"]
+init_graph = {
+"Reykjavik": {"Oslo": 5, "London": 4},
+"Oslo": {"Reykjavik": 5, "Berlin": 1, "Moscow": 3},
+"Moscow": {"Oslo": 3, "Belgrade": 5, "Athens": 4},
+"London": {"Reykjavik": 4},
+"Rome": {"Berlin": 2, "Athens": 2},
+"Berlin": {"Rome": 2, "Oslo": 1},
+"Belgrade": {"Moscow": 5, "Athens": 1},
+"Athens": {"Rome": 2, "Moscow": 4, "Belgrade": 1}
+}
+
