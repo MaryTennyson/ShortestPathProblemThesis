@@ -35,31 +35,40 @@ class Graph(object):
         return self.graph[node1][node2]
 
 def dijkstra(graph, start_node, target_node):
+    #Başlangıç iterasyonları
     unvisited_nodes = list(graph.get_nodes())
     shortest_distances = {node: float('inf') for node in unvisited_nodes}
     previous_nodes = {node: None for node in unvisited_nodes}
     shortest_distances[start_node] = 0
 
+    # Ziyaret edilmemiş düğüm sayısı kadar algoritma döngüye girer
     for _ in range(len(unvisited_nodes)):
+        #ziyaret edilmemiş düğüm yoksa döngüden çıkar
         if not unvisited_nodes:
             break
         
+        # Ziyaret edilmemiş düğümler arasında en kısa mesafeye sahip düğüm seçilir
         current_node = min(unvisited_nodes, key=lambda node: shortest_distances[node])
         
+        #bulunulan düğümm hedef düğümse döngüden çıkar
         if current_node == target_node:
             break
 
+        # Şu anki düğümün tüm komşuları üzerinden geçilir
         for neighbor in graph.get_outgoing_edges(current_node):
+              # Bulunulan düğümden komşuya olan kenarın ağırlığı alınır
             weight = graph.value(current_node, neighbor)
+            # Bulunulan düğüm üzerinden komşuya gitmenin yeni mesafesi hesaplanır
             new_distance = shortest_distances[current_node] + weight
-
+            # Eğer yeni mesafe mevcut bilinen mesafeden daha kısa ise güncellenir
             if new_distance < shortest_distances[neighbor]:
                 shortest_distances[neighbor] = new_distance
+                # Önceki düğüm olarak şu anki düğüm ayarlanır
                 previous_nodes[neighbor] = current_node
-
+        # Bulunulan düğüm ziyaret edildi olarak işaretlenir
         unvisited_nodes.remove(current_node)
 
-   
+   # Hedef düğüme giden bir yol yoksa bilgi verir
     if shortest_distances[target_node] == float('inf'):
         print(f"There is no path from {start_node} to {target_node}.")
         return
@@ -69,7 +78,9 @@ def dijkstra(graph, start_node, target_node):
     node = target_node
     while node is not None:
         path.append(node)
+        # Şu anki düğümün bir önceki düğümüne gider
         node = previous_nodes[node]
+    # Yol tersine eklenmiş olacağı için sıralama ters çevrilir
     path.reverse()
 
  
@@ -351,7 +362,8 @@ init_graph = { "A": {"B": 20, "C": 35, "D": 8},
 
 graph = Graph(nodes, init_graph)
 
-print("130 nodes, 634 edges")
+print("düğüm sayısı:")
+print(len(nodes))
 
 t0=timer()
 dijkstra(graph, "A", "DZ"),
@@ -366,15 +378,6 @@ print (t3-t2)
 
 
 
-nodes = ["Reykjavik", "Oslo", "Moscow", "London", "Rome", "Berlin", "Belgrade", "Athens"]
-init_graph = {
-"Reykjavik": {"Oslo": 5, "London": 4},
-"Oslo": {"Reykjavik": 5, "Berlin": 1, "Moscow": 3},
-"Moscow": {"Oslo": 3, "Belgrade": 5, "Athens": 4},
-"London": {"Reykjavik": 4},
-"Rome": {"Berlin": 2, "Athens": 2},
-"Berlin": {"Rome": 2, "Oslo": 1},
-"Belgrade": {"Moscow": 5, "Athens": 1},
-"Athens": {"Rome": 2, "Moscow": 4, "Belgrade": 1}
-}
+
+
 
