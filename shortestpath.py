@@ -14,7 +14,7 @@ class Graph(object):
         graph.update(init_graph) 
 
         for node, edges in graph.items():
-            for adjacent_node, value in edges.items():
+            for adjacent_node, value in edges.items(): #bitiişik
                 if graph[adjacent_node].get(node, False) == False:
                     graph[adjacent_node][node] = value
         
@@ -60,6 +60,7 @@ def bellman_ford(graph, start_node, target_node):
 
     path.reverse()
     return path, distance[target_node]
+
 
 
 
@@ -193,7 +194,59 @@ nodes = [
 "DW",
 "DX",
 "DY",
-"DZ"
+"DZ",
+"EA",
+"EB",
+"EC",
+"ED",
+"EE",
+"EF",
+"EG",
+"EH",
+"EI",
+"EJ",
+"EK",
+"EL",
+"EM",
+"EN",
+"EO",
+"EP",
+"EQ",
+"ER",
+"ES",
+"ET",
+"EU",
+"EV",
+"EW",
+"EX",
+"EY",
+"EZ",
+"FA",
+"FB",
+"FC",
+"FD",
+"FE",
+"FF",
+"FG",
+"FH",
+"FI",
+"FJ",
+"FK",
+"FL",
+"FM",
+"FN",
+"FO",
+"FP",
+"FQ",
+"FR",
+"FS",
+"FT",
+"FU",
+"FV",
+"FW",
+"FX",
+"FY",
+"FZ"
 ]
 
 init_graph = { "A": {"B": 20, "C": 35, "D": 8},
@@ -303,16 +356,16 @@ init_graph = { "A": {"B": 20, "C": 35, "D": 8},
 "DA": {"CY": 45, "CZ": 28, "DB": 29, "DC": 16, "DD": 35},
 "DB": {"CY": 2, "CZ": 9, "DA": 29, "DC": 17, "DD": 10},
 "DC": {"CY": 13, "CZ": 39, "DA": 16, "DB": 17, "DD": 46},
-"DD": {"CY": 29, "CZ": 17, "DA": 35, "DB": 10, "DC": 46},
+"DD": {"CY": 29, "CZ": 17, "DA": 35, "DE": 10, "DC": 46},
 "DE": {"DF": 47, "DG": 29, "DH": 5, "DI": 41, "DJ": 25},
 "DF": {"DE": 47, "DG": 38, "DH": 41, "DI": 26, "DJ": 30},
 "DG": {"DE": 29, "DF": 38, "DH": 15, "DI": 44, "DJ": 36},
 "DH": {"DE": 5, "DF": 41, "DG": 15, "DI": 18, "DJ": 3},
 "DI": {"DE": 41, "DF": 26, "DG": 44, "DH": 18, "DJ": 45},
-"DJ": {"DE": 25, "DF": 30, "DG": 36, "DH": 3, "DI": 45},
+"DJ": {"DE": 25, "DF": 30, "DG": 36, "DN": 3, "DI": 45},
 "DK": {"DL": 46, "DM": 25, "DN": 36, "DO": 13, "DP": 19},
 "DL": {"DK": 46, "DM": 28, "DN": 27, "DO": 24, "DP": 37},
-"DM": {"DK": 25, "DL": 28, "DN": 40, "DO": 49, "DP": 30},
+"DM": {"DK": 25, "DL": 28, "DN": 40, "DO": 49, "DQ": 30},
 "DN": {"DK": 36, "DL": 27, "DM": 40, "DO": 3, "DP": 45},
 "DO": {"DK": 13, "DL": 24, "DM": 49, "DN": 3, "DP": 11},
 "DP": {"DK": 19, "DL": 37, "DM": 30, "DN": 45, "DO": 11},
@@ -321,11 +374,63 @@ init_graph = { "A": {"B": 20, "C": 35, "D": 8},
 "DS": {"DQ": 21, "DR": 46, "DT": 14, "DU": 36, "DV": 28},
 "DT": {"DQ": 5, "DR": 40, "DS": 14, "DU": 17, "DV": 42},
 "DU": {"DQ": 43, "DR": 26, "DS": 36, "DT": 17, "DV": 25},
-"DV": {"DQ": 8, "DR": 18, "DS": 28, "DT": 42, "DU": 25},
-"DW": {"DX": 43, "DY": 38, "DZ": 33},
-"DX": {"DW": 43, "DY": 1, "DZ": 26},
+"DV": {"DQ": 8, "DR": 18, "DS": 28, "DT": 42,"DV": 25, "DX": 25},
+"DW": {"DX": 43, "DY": 38, "DZ": 33, "EA":12},
+"DX": {"DW": 43, "DY": 1, "DZ": 26,"EB":21},
 "DY": {"DW": 38, "DX": 1, "DZ": 35},
-"DZ": {"DW": 33, "DX": 26, "DY": 35}}
+"DZ": {"DW": 33, "DX": 26, "DY": 35,"EE":10},
+"EA": {"DW":12, "EB": 15, "EC": 9, "ED": 22, "EE": 34, "EF": 28},
+"EB": {"DX":21,"EA": 15, "EC": 24, "ED": 50, "EE": 29, "EF": 35},
+"EC": {"EA": 9, "EB": 24, "ED": 30, "EE": 38, "EF": 17},
+"ED": {"EA": 22, "EB": 50, "EC": 30, "EE": 5, "EF": 42},
+"EE": {"DZ":10, "EA": 34, "EB": 29, "EC": 38, "ED": 5, "EF": 13,"EG":3},
+"EF": {"EA": 28, "EB": 35, "EC": 17, "ED": 42, "EE": 13},
+"EG": {"EH": 8, "EI": 41, "EJ": 3, "EK": 20, "EL": 49,"EE":3},
+"EH": {"EG": 8, "EI": 47, "EJ": 45, "EK": 32, "EL": 28},
+"EI": {"EG": 41, "EH": 47, "EJ": 25, "EK": 11, "EL": 4},
+"EJ": {"EG": 3, "EH": 45, "EI": 25, "EK": 14, "EL": 23},
+"EK": {"EG": 20, "EH": 32, "EI": 11, "EJ": 14, "EL": 21},
+"EL": {"EG": 49, "EH": 28, "EI": 4, "EJ": 23, "EK": 21,"EQ":7},
+"EM": {"ED": 15, "EO": 29, "EP": 39, "EQ": 22, "ER": 36},
+"EN": {"EM": 15, "EO": 34, "EP": 23, "EQ": 31, "ER": 19},
+"EO": {"EM": 29, "EN": 34, "EP": 46, "EQ": 8, "ER": 16},
+"EP": {"EM": 39, "EN": 23, "EO": 46, "EQ": 37, "ER": 45},
+"EQ": {"EM": 22, "EN": 31, "EO": 8, "EP": 37,"EL":7},
+"ER": {"EM": 36, "EN": 19, "EO": 16, "EP": 45, "EV": 37},
+"ES": {"ET": 10, "EU": 33, "EV": 38, "EW": 18, "EX": 4},
+"ET": {"ES": 10, "EU": 42, "EV": 20, "EW": 35, "EX": 29},
+"EU": {"ES": 33, "ET": 42, "EV": 17, "EW": 30, "EX": 7},
+"EV": {"ES": 38, "ET": 20, "EU": 17, "EW": 46, "EX": 41,"ER":37},
+"EW": {"ES": 18, "ET": 35, "EU": 30, "EV": 46, "EX": 21},
+"EX": {"ES": 4, "ET": 29, "EU": 7, "EV": 41, "EW": 21, "FA":50},
+"EY": {"EZ": 50, "FA": 45, "FB": 2, "FC": 13, "FD": 29},
+"EZ": {"EY": 50, "FA": 28, "FB": 9, "FC": 39, "FD": 17,"FA":30},
+"FA": {"EX":50,"EZ":30,"EY": 45, "EZ": 28, "FB": 29, "FC": 16, "FD": 35},
+"FB": {"EY": 2, "EZ": 9, "FA": 29, "FC": 17, "FD": 10},
+"FC": {"EY": 13, "EZ": 39, "FA": 16, "FB": 17},
+"FD": {"EY": 29, "EZ": 17, "FA": 35, "FB": 10, "FE": 13},
+"FE": {"FD": 13, "FF": 49, "FG": 16, "FH": 20, "FI": 38},
+"FF": {"FD": 26, "FE": 49, "FG": 21, "FH": 38, "FI": 9},
+"FG": {"FD": 35, "FE": 16, "FF": 21, "FH": 27, "FI": 36},
+"FH": {"FD": 12, "FE": 20, "FF": 38, "FG": 27, "FI": 15},
+"FI": {"FD": 47, "FE": 38, "FF": 9, "FG": 36, "FH": 15,"FM":34},
+"FJ": {"FK": 31, "FL": 4, "FM": 37, "FN": 48, "FO": 22},
+"FK": {"FJ": 31, "FL": 14, "FM": 3, "FN": 40, "FO": 32},
+"FL": {"FJ": 4, "FK": 14, "FM": 44, "FN": 21, "FO": 35},
+"FM": {"FJ": 37, "FK": 3, "FL": 44, "FN": 29, "FO": 16,"FI":34},
+"FN": {"FJ": 48, "FK": 40, "FL": 21, "FM": 29, "FO": 15},
+"FO": {"FJ": 22, "FK": 32, "FL": 35, "FM": 16, "FN": 15, "FS":23},
+"FP": {"FQ": 8, "FR": 41, "FS": 26, "FT": 35, "FU": 19},
+"FQ": {"FP": 8, "FR": 20, "FS": 10, "FT": 13, "FU": 28},
+"FR": {"FP": 41, "FQ": 20, "FS": 41, "FT": 44, "FU": 15},
+"FS": {"FO":23,"FP": 26, "FQ": 10, "FR": 41, "FT": 30, "FU": 33},
+"FT": {"FP": 35, "FQ": 13, "FR": 44, "FS": 30, "FU": 42, "FW":21},
+"FU": {"FP": 19, "FQ": 28, "FR": 15, "FS": 33, "FT": 42},
+"FV": {"FW": 36, "FX": 21, "FY": 43, "FZ": 50},
+"FW": {"FT":21,"FV": 36, "FX": 12, "FY": 11, "FZ": 25,},
+"FX": {"FV": 21, "FW": 12, "FY": 31, "FZ": 7},
+"FY": {"FV": 43, "FW": 11, "FX": 31, "FZ": 46},
+"FZ": {"FW": 25,"FV": 50, "FW": 25, "FX": 7, "FY": 46}}
 
 
 
@@ -333,6 +438,7 @@ init_graph = { "A": {"B": 20, "C": 35, "D": 8},
 
 graph = Graph(nodes, init_graph)
 
+print("dugum sayisi:")
 print(len(nodes),"nodes",len(nodes)*5/2, "edges")
 
 t0=timer()
@@ -344,7 +450,7 @@ print(t1-t0)
 
 
 t0=timer()
-path, distance = bellman_ford(graph, "CO", "AF")
+path, distance = bellman_ford(graph, "CO", "FF")
 t1=timer()
 print("BF /Shortest Path {}:{}".format(distance, " -> ".join(path)))
 print(t1-t0)
